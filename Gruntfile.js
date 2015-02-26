@@ -16,6 +16,8 @@ module.exports = function (grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
+  grunt.loadNpmTasks('grunt-express-server');
+
   // Configurable paths
   var config = {
     app: 'app',
@@ -30,6 +32,13 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
+      //express: {
+        //files:  [ '**/*.js' ],
+        //tasks:  [ 'express:dev' ],
+        //options: {
+        /*  spawn: false // for grunt-contrib-watch v0.5.0+, "nospawn: true" for lower versions. Without this option specified express won't be reloaded 
+        }
+      },*/
       bower: {
         files: ['bower.json'],
         tasks: ['wiredep']
@@ -123,6 +132,28 @@ module.exports = function (grunt) {
         }]
       },
       server: '.tmp'
+    },
+
+    express: {
+      options: {
+        // Override defaults here 
+      },
+      dev: {
+        options: {
+          script: 'app/server.js'
+        }
+      },
+      prod: {
+        options: {
+          script: 'dist/server.js',
+          node_env: 'production'
+        }
+      },
+      test: {
+        options: {
+          script: 'test/server.js'
+        }
+      }
     },
 
     // Make sure code styles are up to par and there are no obvious mistakes
@@ -379,6 +410,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
+      'express:dev',
       'watch'
     ]);
   });
